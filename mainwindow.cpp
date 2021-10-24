@@ -45,29 +45,44 @@ void MainWindow::dispNodeData(int seq, float humi, float temp, float light)
 {
     QString line_str;
 
-    line_str = "节点" +
-               QString::number(seq) +
-               " 湿度：" +
-               QString::number((double)humi) +
-               "% 温度：" +
-               QString::number((double)temp) +
-               "°C\n           光照度：" +
-               QString::number((double)light) +
-               "lx";
+    if (temp >= temp_max)
+    {
+        line_str = "节点<font color=\"#FF00FF\">" +
+                   QString::number(seq) +
+                   "</font>&nbsp;湿度：<font color=\"#0000FF\">" +
+                   QString::number((double)humi) +
+                   "%</font>&nbsp;温度：<font color=\"#FF0000\">" +
+                   QString::number((double)temp) +
+                   "°C</font><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;光照度：<font color=\"#0000FF\">" +
+                   QString::number((double)light) +
+                   "lx</font>";
+    }
+    else
+    {
+        line_str = "节点<font color=\"#FF00FF\">" +
+                   QString::number(seq) +
+                   "</font>&nbsp;湿度：<font color=\"#0000FF\">" +
+                   QString::number((double)humi) +
+                   "%</font>&nbsp;温度：<font color=\"#0000FF\">" +
+                   QString::number((double)temp) +
+                   "°C</font><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;光照度：<font color=\"#0000FF\">" +
+                   QString::number((double)light) +
+                   "lx</font>";
+    }
 
     switch (seq)
     {
     case 2:
-        ui->label_node2->setText(line_str);
+        ui->textBrowser_node2->setHtml("<b><font size=\"60\">" + line_str + "</font></b>");
         break;
     case 3:
-        ui->label_node3->setText(line_str);
+        ui->textBrowser_node3->setHtml("<b><font size=\"60\">" + line_str + "</font></b>");
         break;
     case 4:
-        ui->label_node4->setText(line_str);
+        ui->textBrowser_node4->setHtml("<b><font size=\"60\">" + line_str + "</font></b>");
         break;
     case 5:
-        ui->label_node5->setText(line_str);
+        ui->textBrowser_node5->setHtml("<b><font size=\"60\">" + line_str + "</font></b>");
     }
 }
 
@@ -95,7 +110,7 @@ void MainWindow::sendNodeWarn(int seq, float humi, float temp, float light)
         is_first_run = false;
     }
 
-    if (temp > temp_max)
+    if (temp >= temp_max)
     {
         QString warn_str = "节点" +
                            QString::number(seq) +
